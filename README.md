@@ -1,2 +1,1 @@
-# AI-ML_LAB_Submissions_HrithikYeknath
-AI/ML Lab submissions
+AI/ML Lab Submissions - Hrithik Yeknath (29)
