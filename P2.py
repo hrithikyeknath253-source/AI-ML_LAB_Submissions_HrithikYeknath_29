@@ -1,45 +1,41 @@
-graph = {
-    'A': ['B', 'C'],
-    'B': ['D', 'E'],
-    'C': ['F'],
-    'D': [],
-    'E': ['F'],
-    'F': []
+graph_astar = {
+    'A': {'B': 1, 'C': 4},
+    'B': {'D': 2, 'E': 5},
+    'C': {'F': 1},
+    'D': {'G': 3},
+    'E': {'G': 1},
+    'F': {'G': 5},
+    'G': {}
 }
 
-graph2 = {
-    '1': ['2', '3'],
-    '2': ['4', '5'],
-    '3': ['6', '7'],
-    '4': [],
-    '5': [],
-    '6': [],
-    '7': []
+heuristic_astar = {
+    'A': 7,
+    'B': 6,
+    'C': 4,
+    'D': 2,
+    'E': 1,
+    'F': 3,
+    'G': 0
 }
 
-def dfs(graph, start):
-    visited = []
-    stack = []
+open_list = []
+start = 'A'
+goal = 'G'
 
-    stack.append(start)
-
-    while stack:
-        node = stack.pop()
-        if node not in visited:
-            visited.append(node)
-            for neighbour in reversed(graph[node]):
-                if neighbour not in visited:
-                    stack.append(neighbour)
-
-    print(visited)
-
-choice = builtins.input("Choose graph (1 or 2): ")
-
-if choice == "1":
-    start = builtins.input("Enter start node: ").strip().upper()
-    dfs(graph, start)
-elif choice == "2":
-    start = builtins.input("Enter start node: ").strip()
-    dfs(graph2, start)
-else:
-    print("Invalid graph choice")
+def astar(graph, heuristic, start, goal):
+  open_list.append(start)
+  cost = {start:0}
+  while open_list:
+    current = open_list[0]
+    for node in open_list:
+      if cost[node] + heuristic[node] < cost[current] + heuristic[current]:
+        current = node
+    if current == goal:
+        print ("Goal node found!")
+        return
+    open_list.remove(current)
+    for neighbour in graph[current]:
+          if neighbour not in cost:
+            cost[neighbour] = cost[current] + graph[current][neighbour]
+            open_list.append(neighbour)
+astar(graph_astar, heuristic_astar, start, goal)
